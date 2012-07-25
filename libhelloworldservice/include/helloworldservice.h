@@ -52,6 +52,7 @@ public:
 private:
     /* Private constructor to force the usage the  instantiate method */
     HelloWorldService(){};
+    virtual sp<IHelloWorld> getfilesize(const char* filename);
 };
 
 }

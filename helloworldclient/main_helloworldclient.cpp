@@ -45,6 +45,16 @@ int main(int argc, char *argv[])
 
         shw = android::interface_cast<android::IHelloWorld>(binder);
         shw->hellothere("fun");
+        int filesize = 0;
+        char *filepath = NULL;
+        if (argc > 0) {
+            filepath = argv[1];
+        } else {
+            filepath = "/data/data/com.wssyncmldm/databases/wssdmdatabase.db";
+        }
+
+        //filesize = shw->getfilesize(filepath);
+        LOGI("Hello Filesize: %d, filePath: %s\n", filesize, filepath);
 	
 	LOGI("Hello client is now exiting");
 

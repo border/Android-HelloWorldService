@@ -41,7 +41,8 @@ protected:
      * are delivered using parcels.
      **/
     enum {
-            HW_HELLOTHERE =  IBinder::FIRST_CALL_TRANSACTION
+            HW_HELLOTHERE =  IBinder::FIRST_CALL_TRANSACTION,
+            HW_FILE_SIZE,
     };
 
 public:
@@ -71,6 +72,8 @@ public:
          * binder calls to the methods using the enum.
          **/
         virtual void hellothere(const char *str) = 0;
+
+        virtual sp<IHelloWorld> getfilesize(const char* filename) = 0;
 };
 
 }

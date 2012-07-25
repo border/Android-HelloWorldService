@@ -59,6 +59,22 @@ public:
                 remote()->transact(HW_HELLOTHERE, data, &reply, IBinder::FLAG_ONEWAY);
         }
 
+        virtual sp<IHelloWorld> getfilesize(const char *str) {
+                /**
+                 * most remote implementation method will look like this
+                 * two objects are created "data and reply" to serve as and reply
+                 * A parcel is "filled with data" and the transact method is called
+                 */
+                Parcel data, reply;
+                data.writeInterfaceToken(getInterfaceDescriptor());
+                data.writeString16(String16(str));
+                remote()->transact(HW_HELLOTHERE, data, &reply);
+                int filesize = reply.readInt32();
+                printf("filesize=%d\n", filesize);
+                return interface_cast<IHelloWorld>(reply.readStrongBinder());
+        }
+
+
 };
 
 /**
