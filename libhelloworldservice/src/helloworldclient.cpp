@@ -12,6 +12,7 @@
 #include <utils/Errors.h>
 #include <binder/IServiceManager.h>
 #include <utils/String16.h>
+#include <utils/String8.h>
 #include <binder/Parcel.h>
 
 #include "IHelloWorld.h"
@@ -56,7 +57,13 @@ public:
                 Parcel data, reply;
                 data.writeInterfaceToken(getInterfaceDescriptor());
                 data.writeString16(String16(str));
-                remote()->transact(HW_HELLOTHERE, data, &reply, IBinder::FLAG_ONEWAY);
+                //remote()->transact(HW_HELLOTHERE, data, &reply, IBinder::FLAG_ONEWAY);
+                remote()->transact(HW_HELLOTHERE, data, &reply);
+                int filesize = reply.readInt32();
+                printf("filesize=%d\n", filesize);
+
+                String16 s = reply.readString16();
+                printf("client str: (%s)\n", String8(s).string());
         }
 
         virtual sp<IHelloWorld> getfilesize(const char *str) {

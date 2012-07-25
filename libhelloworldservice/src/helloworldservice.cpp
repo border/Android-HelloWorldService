@@ -20,6 +20,8 @@
 
 namespace android {
 
+int count = 0;
+
 /**
  *  This static methods initializes a new HelloWorldService
  *  and "registers" it to the default service manager.
@@ -76,6 +78,10 @@ status_t HelloWorldService::onTransact(uint32_t code,
                 }
                 String16 str = data.readString16();
                 hellothere(String8(str).string());
+
+                reply->writeInt32(count++);
+
+                reply->writeString16(String16("Hello, It's from Service"));
                 return NO_ERROR;
         } break;
         case HW_FILE_SIZE: {
