@@ -73,7 +73,7 @@ public:
          **/
         virtual void hellothere(const char *str) = 0;
 
-        virtual sp<IHelloWorld> getfilesize(const char* filename) = 0;
+        virtual int getfilesize(const char* filename) = 0;
 };
 
 }

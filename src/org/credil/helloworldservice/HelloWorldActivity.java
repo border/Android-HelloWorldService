@@ -25,7 +25,9 @@ public class HelloWorldActivity extends Activity {
             mIHelloWorld = IHelloWorld.Stub.asInterface(service);
             mHelloBox.append("connected\n");
             try {
-                mIHelloWorld.hellothere("Calling from Java");
+                int filesize = mIHelloWorld.hellothere("Calling from Java");
+                Log.d(LOG_TAG, "filesize: " + filesize);
+                mHelloBox.append("filesize: " + filesize + " \n");
             } catch (RemoteException e) {
                 Log.w(LOG_TAG," Failed to invoke hellothere:" + e.getMessage(),e);
             }

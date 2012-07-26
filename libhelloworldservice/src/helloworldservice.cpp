@@ -39,17 +39,12 @@ void HelloWorldService::hellothere(const char *str){
     printf("hello: %s\n", str);
 }
 
-sp<IHelloWorld> HelloWorldService::getfilesize(const char* filename) {
+int HelloWorldService::getfilesize(const char* filename) {
     struct stat st;
-    Parcel data, reply;
-
+    LOGE("HelloWorldService filename: %s\n", filename);
+    printf("HelloWorldService filename: %s\n", filename);
     stat(filename, &st);
-
-    data.writeInterfaceToken(getInterfaceDescriptor());
-    data.writeInt32(st.st_size);
-
-    //remote()->transact(HW_FILE_SIZE, data, &reply);
-    return interface_cast<IHelloWorld>(reply.readStrongBinder());
+    return st.st_size;
 }
 
 /**
@@ -76,12 +71,14 @@ status_t HelloWorldService::onTransact(uint32_t code,
                 if (checkCallingPermission(String16("org.credil.helloworldservice.permissions.CALL_HELLOTHERE")) == false){
                     return   PERMISSION_DENIED;
                 }
+                printf("helloworld HW_HELLOTHERE");
                 String16 str = data.readString16();
                 hellothere(String8(str).string());
 
                 reply->writeInt32(count++);
+                printf("count: %d\n", count);
 
-                reply->writeString16(String16("Hello, It's from Service"));
+                //reply->writeString16(String16("Hello, It's from Service"));
                 return NO_ERROR;
         } break;
         case HW_FILE_SIZE: {
@@ -97,11 +94,10 @@ status_t HelloWorldService::onTransact(uint32_t code,
                 LOGE("File Size(%u,%u)\n", code, flags);
                 String16 str = data.readString16();
                 LOGE("File Path %s\n", String8(str).string());
+                printf("File Path %s\n", String8(str).string());
                 //reply->writeInt32(getfilesize("/data/data/com.wssyncmldm/databases/wssdmdatabase.db"));
-                sp<IHelloWorld> filesize = getfilesize(String8(str).string());
-                reply->writeStrongBinder(filesize->asBinder());
-
-                //reply->writeInt32(getfilesize(String8(str).string()));
+                int filesize = getfilesize(String8(str).string());
+                reply->writeInt32(filesize);
                 return NO_ERROR;
         } break;
 

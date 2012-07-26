@@ -4,6 +4,8 @@
       android:versionCode="1"
       android:versionName="1.0">
 
+    <uses-sdk android:minSdkVersion="12" />
+        
     <!-- Define a permission for people to access the native service this should normally
     happen in a different place. all Binder interface are to be considered public so you always
     need to take security into account -->
