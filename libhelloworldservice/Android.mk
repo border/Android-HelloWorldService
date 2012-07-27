@@ -4,6 +4,7 @@ include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := src/helloworldservice.cpp 
 LOCAL_SRC_FILES += src/helloworldclient.cpp 
+LOCAL_SRC_FILES += src/main_helloworldclient.cpp
 
 LOCAL_C_INCLUDES :=         \
     $(LOCAL_PATH)/include

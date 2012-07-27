@@ -17,7 +17,7 @@ public class HelloWorldActivity extends Activity {
     private static final String LOG_TAG = HelloWorldActivity.class.getSimpleName();
 
     static {
-        System.loadLibrary("hello");
+        System.loadLibrary("helloworldservice");
     }
 
     private native String printJNI();
