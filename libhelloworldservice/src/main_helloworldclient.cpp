@@ -114,7 +114,9 @@ JNIEXPORT jstring JNICALL  Java_org_credil_helloworldservice_HelloWorldActivity_
     print();
     int filesize = hello_main();
     LOGI("Hello World From libhelloworldservice.so  filesize: %d\n", filesize);
-	return env->NewStringUTF("libhelloworldservice Hello World!");
+    char *str = (char *)malloc(1024);
+    sprintf(str, "libhelloworldservice Hello World, filesize: %d\n",  filesize);
+	return stoJstring(env, str);
 }
 
 #ifdef __cplusplus
