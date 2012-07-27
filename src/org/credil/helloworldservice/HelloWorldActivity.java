@@ -16,30 +16,36 @@ import android.widget.TextView;
 public class HelloWorldActivity extends Activity {
     private static final String LOG_TAG = HelloWorldActivity.class.getSimpleName();
 
+    static {
+        System.loadLibrary("hello");
+    }
+
+    private native String printJNI();
+    
     TextView mHelloBox;
-    IHelloWorld mIHelloWorld;
+//    IHelloWorld mIHelloWorld;
 
-    public ServiceConnection serviceConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d(LOG_TAG, "Service connected");
-            mIHelloWorld = IHelloWorld.Stub.asInterface(service);
-            mHelloBox.append("connected\n");
-            try {
-                int filesize = mIHelloWorld.hellothere("Calling from Java");
-                Log.d(LOG_TAG, "filesize: " + filesize);
-                mHelloBox.append("filesize: " + filesize + " \n");
-            } catch (RemoteException e) {
-                Log.w(LOG_TAG," Failed to invoke hellothere:" + e.getMessage(),e);
-            }
-        }
-
-        public void onServiceDisconnected(ComponentName name) {
-            mHelloBox.append("diconnected\n");
-            Log.e(LOG_TAG, "disconnected");
-            //This is where the current story ends. once disconnected we are not able to automatically reconnect
-            mIHelloWorld = null;
-        }
-    };
+//    public ServiceConnection serviceConnection = new ServiceConnection() {
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            Log.d(LOG_TAG, "Service connected");
+//            mIHelloWorld = IHelloWorld.Stub.asInterface(service);
+//            mHelloBox.append("connected\n");
+//            try {
+//                int filesize = mIHelloWorld.hellothere("Calling from Java");
+//                Log.d(LOG_TAG, "filesize: " + filesize);
+//                mHelloBox.append("filesize: " + filesize + " \n");
+//            } catch (RemoteException e) {
+//                Log.w(LOG_TAG," Failed to invoke hellothere:" + e.getMessage(),e);
+//            }
+//        }
+//
+//        public void onServiceDisconnected(ComponentName name) {
+//            mHelloBox.append("diconnected\n");
+//            Log.e(LOG_TAG, "disconnected");
+//            //This is where the current story ends. once disconnected we are not able to automatically reconnect
+//            mIHelloWorld = null;
+//        }
+//    };
 
     /**
      * Called when the activity is first created.
@@ -52,14 +58,16 @@ public class HelloWorldActivity extends Activity {
         mHelloBox = (TextView) findViewById(R.id.HelloView01);
         mHelloBox.setText("start\n");
 
-
+        Log.d(LOG_TAG, "Activity call JNI: " + printJNI());
+        mHelloBox.append("Activity call JNI: " + printJNI() + "\n");
+        
         //We can currently not perform a bindService because the native code
         //did not register to the activity manager
-        bindService(new Intent("org.credil.helloworldservice.IHelloWorld"),serviceConnection, BIND_AUTO_CREATE);
+//        bindService(new Intent("org.credil.helloworldservice.IHelloWorld"),serviceConnection, BIND_AUTO_CREATE);
     }
 
     public void onDestroy(){
         super.onDestroy();
-        unbindService(serviceConnection);
+//        unbindService(serviceConnection);
     }
 }

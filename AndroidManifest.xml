@@ -27,12 +27,12 @@
             </intent-filter>
         </activity>
 
-        <!-- Really just a wrapper Service that listens to the IHelloWorld action intent-->
+        <!-- 
         <service android:name=".HelloWorldService">
         <intent-filter>
-            <!-- That the intent name is equal the "descriptor" name is a pure coincidence -->
             <action android:name="org.credil.helloworldservice.IHelloWorld" />
         </intent-filter>
         </service>
+         -->
     </application>
 </manifest>
