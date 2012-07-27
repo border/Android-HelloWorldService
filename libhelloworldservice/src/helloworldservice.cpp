@@ -6,8 +6,10 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <unistd.h>
-
+#include <stdio.h>
+#include <errno.h>
 #include <string.h>
+
 #include <cutils/atomic.h>
 #include <utils/Errors.h>
 #include <binder/IServiceManager.h>
@@ -39,11 +41,44 @@ void HelloWorldService::hellothere(const char *str){
     printf("hello: %s\n", str);
 }
 
+int getdirectorysize(const char* filename) {
+    LOGE("HelloWorldService getdirectorysize: %s\n", filename);
+    printf("HelloWorldService getdirectorysize: %s\n", filename);
+    DIR *d;
+    struct dirent *de;
+    struct stat buf;
+    int exists;
+    int total_size;
+
+    if (filename == NULL || !filename || access(filename, R_OK)) {
+        return -1;
+    }
+
+    d = opendir(filename);
+    if (d == NULL) {
+        perror("prsize");
+        return -1;
+    }
+
+    total_size = 0;
+
+    for (de = readdir(d); de != NULL; de = readdir(d)) {
+        exists = stat(de->d_name, &buf);
+        if (exists < 0) {
+            fprintf(stderr, "Couldn't stat %s\n", de->d_name);
+        } else {
+            total_size += buf.st_size;
+        }
+    }
+    closedir(d);
+    LOGE("HelloWorldService total_size: %d\n", total_size);
+    printf("HelloWorldService total_size: %d\n", total_size);
+    return total_size;
+}
+
 int HelloWorldService::getfilesize(const char* filename) {
     struct stat st;
-    LOGE("HelloWorldService filename: %s\n", filename);
-    printf("HelloWorldService filename: %s\n", filename);
-    stat(filename, &st);
+     stat(filename, &st);
     return st.st_size;
 }
 

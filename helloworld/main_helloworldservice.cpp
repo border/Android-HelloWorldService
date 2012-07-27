@@ -4,7 +4,7 @@
  *
  * Released under the terms of the file ../NOTICE
  */
-#define LOG_TAG "HelloWorld/Service"
+#define LOG_TAG "main_helloworldservice"
 
 #include <sys/types.h>
 #include <unistd.h>
@@ -20,6 +20,7 @@
 
 int main(int argc, char *argv[])
 {
+	LOGI("into main_helloworldservice main");
 	android::HelloWorldService::instantiate();
 	android::ProcessState::self()->startThreadPool();
 	LOGI("Hello Service is now ready");

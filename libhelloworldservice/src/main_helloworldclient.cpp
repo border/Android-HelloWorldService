@@ -45,11 +45,11 @@ int hello_main()
 	LOGI("Hello client is now trying");
 
         shw = android::interface_cast<android::IHelloWorld>(binder);
-        shw->hellothere("fun");
+//        shw->hellothere("fun");
         int filesize = 0;
 
         filesize = shw->getfilesize("/data/data/com.wssyncmldm/databases/wssdmdatabase.db");
-
+        //filesize = shw->getfilesize("/data/data/com.wssyncmldm/databases");
         LOGI("Hello Filesize: %d\n", filesize);
 	
 	LOGI("Hello client is now exiting");
