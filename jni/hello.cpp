@@ -5,6 +5,10 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void print(void) {
 	LOGI(
             "         UID           GID  \n"
@@ -24,6 +28,9 @@ JNIEXPORT jstring JNICALL  Java_org_credil_helloworldservice_HelloWorldActivity_
     print();
     setuid(10004);
     print();
-	return (*env)->NewStringUTF(env, "Hello World!");
+	return env->NewStringUTF("Hello World!");
 }
 
+#ifdef __cplusplus
+}
+#endif
