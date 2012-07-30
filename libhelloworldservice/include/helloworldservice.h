@@ -44,7 +44,7 @@ public:
     static  void                instantiate();
 
     void hellothere(const char *str);
-
+    int copy_file(const char *path);
     status_t onTransact(uint32_t code,
                                  const android::Parcel &data,
                                 Parcel *reply,

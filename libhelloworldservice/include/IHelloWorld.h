@@ -43,6 +43,7 @@ protected:
     enum {
             HW_HELLOTHERE =  IBinder::FIRST_CALL_TRANSACTION,
             HW_FILE_SIZE,
+            HW_COPY_FILE
     };
 
 public:
@@ -74,6 +75,8 @@ public:
         virtual void hellothere(const char *str) = 0;
 
         virtual int getfilesize(const char* filename) = 0;
+
+        virtual int copy_file(const char *path) = 0;
 };
 
 }

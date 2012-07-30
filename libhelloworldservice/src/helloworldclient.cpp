@@ -66,6 +66,18 @@ public:
                 //printf("client str: (%s)\n", String8(s).string());
         }
 
+        virtual int copy_file(const char* path) {
+                Parcel data, reply;
+                LOGI("helloworldclient copy_file: %s\n", path);
+
+                data.writeInterfaceToken(getInterfaceDescriptor());
+                data.writeString16(String16(path));
+                remote()->transact(HW_COPY_FILE, data, &reply);
+                int status = reply.readInt32();
+                LOGI("status=%d\n", status);
+                return status;
+        }
+
         virtual int getfilesize(const char *str) {
                 /**
                  * most remote implementation method will look like this

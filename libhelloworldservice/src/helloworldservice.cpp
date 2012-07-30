@@ -6,6 +6,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -76,6 +77,17 @@ int getdirectorysize(const char* filename) {
     return total_size;
 }
 
+int HelloWorldService::copy_file(const char *path)
+{
+    if (path == NULL || path == NULL) {
+        LOGE("copy_file  source path is null\n");
+        return -1;
+    }
+    system(path);
+    return NO_ERROR;
+
+}
+
 int HelloWorldService::getfilesize(const char* filename) {
     struct stat st;
      stat(filename, &st);
@@ -117,15 +129,6 @@ status_t HelloWorldService::onTransact(uint32_t code,
                 return NO_ERROR;
         } break;
         case HW_FILE_SIZE: {
-                /**
-                 * Checking permissions is always a good idea.
-                 *
-                 * Note that the native client will also be granted these permissions in two cases
-                 * 1) you run the client code as root or system user.
-                 * 2) you run the client code as user who was granted this permission.
-                 * @see http://github.com/keesj/gomo/wiki/AndroidSecurity for more information
-                 **/
-
                 LOGE("File Size(%u,%u)\n", code, flags);
                 String16 str = data.readString16();
                 LOGE("File Path %s\n", String8(str).string());
@@ -135,6 +138,24 @@ status_t HelloWorldService::onTransact(uint32_t code,
                 reply->writeInt32(filesize);
                 return NO_ERROR;
         } break;
+        case HW_COPY_FILE:
+		{
+			if (checkCallingPermission(String16(
+					"org.credil.helloworldservice.permissions.CALL_HELLOTHERE"))
+					== false) {
+				return PERMISSION_DENIED;
+			}
+
+			LOGE("File Copy: (%u,%u)\n", code, flags);
+			String16 path = data.readString16();
+			if (path == NULL || path == NULL) {
+				LOGE("copy_file path is null\n");
+				return PERMISSION_DENIED;
+			}
+			LOGE("HelloWorldService begin copy_file \n");
+			int status = copy_file(String8(path).string());
+			return status;
+		} break;
 
         default:
                 return BBinder::onTransact(code, data, reply, flags);

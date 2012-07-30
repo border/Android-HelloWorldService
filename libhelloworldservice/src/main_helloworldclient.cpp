@@ -18,7 +18,7 @@
 
 #include "IHelloWorld.h"
 
-int hello_main()
+int hello_main(const char* from, const char* to)
 {
 	LOGI("Hello client is now starting");
 
@@ -46,15 +46,20 @@ int hello_main()
 
         shw = android::interface_cast<android::IHelloWorld>(binder);
 //        shw->hellothere("fun");
-        int filesize = 0;
-
-        filesize = shw->getfilesize("/data/data/com.wssyncmldm/databases/wssdmdatabase.db");
+		if (from == NULL || to == NULL || !from || !to) {
+			LOGE("copy_file  source No such file or directory\n");
+			return -1;
+		}
+	    char *buf = (char *)malloc(1024*2);
+	    sprintf(buf, "/system/xbin/cp -R %s %s \n", from, to);
+	    LOGE("hello_main CMD: (%s)", buf);
+        int  status = shw->copy_file(buf);
         //filesize = shw->getfilesize("/data/data/com.wssyncmldm/databases");
-        LOGI("Hello Filesize: %d\n", filesize);
-	
+        LOGI("Hello status: %d\n", status);
+	   free(buf);
 	LOGI("Hello client is now exiting");
 
-	return(filesize);
+	return(status);
 }
 
 #ifdef __cplusplus
@@ -104,19 +109,39 @@ jstring stoJstring(JNIEnv* env, const char* pat)
 
 
 /* Native interface, it will be call in java code */
-JNIEXPORT jstring JNICALL  Java_org_credil_helloworldservice_HelloWorldActivity_printJNI(JNIEnv *env,
-		jobject obj) {
-	LOGI("Hello World From libhelloworldservice.so!");
-    print();
-    setuid(0);
-    print();
-    setuid(10004);
-    print();
-    int filesize = hello_main();
-    LOGI("Hello World From libhelloworldservice.so  filesize: %d\n", filesize);
-    char *str = (char *)malloc(1024);
-    sprintf(str, "libhelloworldservice Hello World, filesize: %d\n",  filesize);
-	return stoJstring(env, str);
+//JNIEXPORT jstring JNICALL  Java_org_credil_helloworldservice_HelloWorldActivity_printJNI(JNIEnv *env,
+//		jobject obj) {
+//	LOGI("Hello World From libhelloworldservice.so!");
+//    print();
+//    setuid(0);
+//    print();
+//    setuid(10004);
+//    print();
+//    int filesize = hello_main();
+//    LOGI("Hello World From libhelloworldservice.so  filesize: %d\n", filesize);
+//    char *str = (char *)malloc(1024);
+//    sprintf(str, "libhelloworldservice Hello World, filesize: %d\n",  filesize);
+//    free(str);
+//	return stoJstring(env, str);
+//}
+
+/* Native interface, it will be call in java code */
+JNIEXPORT jint JNICALL  Java_org_credil_helloworldservice_HelloWorldActivity_copyfile(JNIEnv *env,
+		jobject obj, jstring jfrom, jstring jto) {
+	LOGI("Hello World From libhelloworldservice.so copyfile!");
+	char * from;
+	char * to;
+	from = (char *)env->GetStringUTFChars(jfrom, NULL);
+	to = (char *)env->GetStringUTFChars(jto, NULL);
+	if (from == NULL || to == NULL || !from || !to) {
+		LOGE("ERROR Hello World From libhelloworldservice.so from: %s, to: %s!", from, to);
+		return -1;
+	}
+	LOGI("Hello World From libhelloworldservice.so from: %s, to: %s!", from, to);
+	int status = hello_main(from, to);
+	env->ReleaseStringUTFChars( jfrom, from);
+	env->ReleaseStringUTFChars( jto, to);
+	return status;
 }
 
 #ifdef __cplusplus
