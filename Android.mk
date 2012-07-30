@@ -8,8 +8,8 @@ LOCAL_SRC_FILES := $(call all-java-files-under, src) \
 
 LOCAL_PACKAGE_NAME := HelloWorldService
 
-LOCAL_REQUIRED_MODULES := libhelloworldservice
-LOCAL_JNI_SHARED_LIBRARIES := libhelloworldservice
+LOCAL_REQUIRED_MODULES := libzpadbackupservice
+LOCAL_JNI_SHARED_LIBRARIES := libzpadbackupservice
 
 include $(BUILD_PACKAGE)
 

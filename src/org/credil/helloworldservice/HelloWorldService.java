@@ -25,7 +25,8 @@ public class HelloWorldService extends Service {
          *
          * The mBinder returned "lives" in a different process.
          **/
-        mIBinder = ServiceManager.getService("org.credil.helloworldservice.IHelloWorld");
+        //mIBinder = ServiceManager.getService("org.credil.helloworldservice.IHelloWorld");
+        mIBinder = ServiceManager.getService("cn.com.zpad.backup.IZpad");
         if (mIBinder == null) {
             Log.e(LOG_TAG, "Hello service not found is/system/bin/helloworldservice running?");
             return null;

@@ -12,7 +12,7 @@ LOCAL_C_INCLUDES :=         \
 LOCAL_CFLAGS += -DPLATFORM_ANDROID
 
 
-LOCAL_MODULE := libhelloworldservice
+LOCAL_MODULE := libzpadbackupservice
 LOCAL_MODULE_TAGS := optional
 
 # for now, until I do a full rebuild.

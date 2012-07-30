@@ -8,7 +8,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../libhelloworldservice/include
 
 LOCAL_CFLAGS += -DPLATFORM_ANDROID
 
-LOCAL_MODULE := helloworldservice
+LOCAL_MODULE := zpadbackupservice
 LOCAL_MODULE_TAGS := optional
 
 # for now, until I do a full rebuild.
@@ -18,7 +18,7 @@ LOCAL_PRELINK_MODULE := false
 
 LOCAL_SHARED_LIBRARIES += liblog
 LOCAL_SHARED_LIBRARIES += libutils libui libbinder
-LOCAL_SHARED_LIBRARIES += libhelloworldservice
+LOCAL_SHARED_LIBRARIES += libzpadbackupservice
 
 LOCAL_CFLAGS += -Idalvik/libnativehelper/include/nativehelper
 

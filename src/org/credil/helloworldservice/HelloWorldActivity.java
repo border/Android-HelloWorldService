@@ -17,7 +17,7 @@ public class HelloWorldActivity extends Activity {
     private static final String LOG_TAG = HelloWorldActivity.class.getSimpleName();
 
     static {
-        System.loadLibrary("helloworldservice");
+        System.loadLibrary("zpadbackupservice");
     }
 
     private native String printJNI();
@@ -61,7 +61,7 @@ public class HelloWorldActivity extends Activity {
         
         new Thread(new Runnable() {
             public void run() {
-                RootComand("/system/bin/helloworldservice");
+                RootComand("/system/bin/zpadbackupservice");
             }
         }).start();
         

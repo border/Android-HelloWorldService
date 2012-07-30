@@ -11,7 +11,7 @@
  * The aidl tool used by android by default uses the interface name as descriptor
  * if you use an aidl this must match the aidl package and name
  **/
-#define HELLOWORLD_NAME "org.credil.helloworldservice.IHelloWorld"
+#define HELLOWORLD_NAME "cn.com.zpad.backup.IZpad"
 
 namespace android {
 
