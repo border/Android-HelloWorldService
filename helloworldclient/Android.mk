@@ -18,7 +18,7 @@ LOCAL_PRELINK_MODULE := false
 
 LOCAL_SHARED_LIBRARIES += liblog
 LOCAL_SHARED_LIBRARIES += libutils libui libbinder
-LOCAL_SHARED_LIBRARIES += libhelloworldservice
+LOCAL_SHARED_LIBRARIES += libzpadbackupservice
 
 LOCAL_CFLAGS += -Idalvik/libnativehelper/include/nativehelper
 
