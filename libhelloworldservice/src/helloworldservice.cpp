@@ -148,13 +148,10 @@ status_t HelloWorldService::onTransact(uint32_t code,
 
 			LOGE("File Copy: (%u,%u)\n", code, flags);
 			String16 path = data.readString16();
-			if (path == NULL || path == NULL) {
-				LOGE("copy_file path is null\n");
-				return PERMISSION_DENIED;
-			}
-			LOGE("HelloWorldService begin copy_file \n");
+			LOGE("HelloWorldService begin copy_file path %s\n", String8(path).string());
 			int status = copy_file(String8(path).string());
-			return status;
+            reply->writeInt32(status);
+			return NO_ERROR;
 		} break;
 
         default:
