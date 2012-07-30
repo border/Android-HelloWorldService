@@ -1,4 +1,4 @@
-#define LOG_TAG "HelloWorldService"
+#define LOG_TAG "ZPadService"
 
 #include <utils/Log.h>
 
@@ -42,41 +42,6 @@ void HelloWorldService::hellothere(const char *str){
     printf("hello: %s\n", str);
 }
 
-int getdirectorysize(const char* filename) {
-    LOGE("HelloWorldService getdirectorysize: %s\n", filename);
-    printf("HelloWorldService getdirectorysize: %s\n", filename);
-    DIR *d;
-    struct dirent *de;
-    struct stat buf;
-    int exists;
-    int total_size;
-
-    if (filename == NULL || !filename || access(filename, R_OK)) {
-        return -1;
-    }
-
-    d = opendir(filename);
-    if (d == NULL) {
-        perror("prsize");
-        return -1;
-    }
-
-    total_size = 0;
-
-    for (de = readdir(d); de != NULL; de = readdir(d)) {
-        exists = stat(de->d_name, &buf);
-        if (exists < 0) {
-            fprintf(stderr, "Couldn't stat %s\n", de->d_name);
-        } else {
-            total_size += buf.st_size;
-        }
-    }
-    closedir(d);
-    LOGE("HelloWorldService total_size: %d\n", total_size);
-    printf("HelloWorldService total_size: %d\n", total_size);
-    return total_size;
-}
-
 int HelloWorldService::copy_file(const char *from, const char *to)
 {
     if (from == NULL || to == NULL || access(from, R_OK)) {
@@ -85,7 +50,7 @@ int HelloWorldService::copy_file(const char *from, const char *to)
 	}
 	char *buf = (char *) malloc(1024 * 2);
 	sprintf(buf, "/system/xbin/cp -R %s %s \n", from, to);
-	LOGE("hello_main CMD: (%s)", buf);
+	LOGI("CMD: (%s)", buf);
 	system(buf);
 	free(buf);
 	return NO_ERROR;
@@ -153,8 +118,8 @@ status_t HelloWorldService::onTransact(uint32_t code,
 			LOGE("File Copy: (%u,%u)\n", code, flags);
 			String16 from = data.readString16();
 			String16 to = data.readString16();
-			LOGE("HelloWorldService begin copy_file path %s\n", String8(from).string());
-			LOGE("HelloWorldService begin copy_file path %s\n", String8(to).string());
+			LOGI("copy_file From: %s\n", String8(from).string());
+			LOGI("copy_file To: %s\n", String8(to).string());
 			int status = copy_file(String8(from).string(), String8(to).string());
             reply->writeInt32(status);
 			return NO_ERROR;

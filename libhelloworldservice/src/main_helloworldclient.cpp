@@ -4,7 +4,7 @@
  *
  * Released under the terms of the file ../NOTICE
  */
-#define LOG_TAG "HelloWorld/Service"
+#define LOG_TAG "ZPadService-JNI"
 
 #include <jni.h>
 #include <sys/types.h>
@@ -30,7 +30,7 @@ int hello_main(const char* from, const char* to)
                 binder = sm->getService(android::String16(HELLOWORLD_NAME));
                 if (binder != 0)
                         break;
-                LOGW("HelloWorld not published, waiting...");
+                LOGW("ZPad/Service not published, waiting...");
                 usleep(500000); // 0.5 s
         } while(true);
 
@@ -42,8 +42,6 @@ int hello_main(const char* from, const char* to)
         //binder->linkToDeath(sDeathNotifier);
         //sMediaPlayerService = interface_cast<IMediaPlayerService>(binder);
 
-	LOGI("Hello client is now trying");
-
         shw = android::interface_cast<android::IHelloWorld>(binder);
 //        shw->hellothere("fun");
 		if (from == NULL || to == NULL || !from || !to) {
@@ -52,7 +50,7 @@ int hello_main(const char* from, const char* to)
 		}
         int  status = shw->copy_file(from, to);
         //filesize = shw->getfilesize("/data/data/com.wssyncmldm/databases");
-        LOGI("Hello status: %d\n", status);
+        LOGI("ZPad/Service Return status: %d\n", status);
 
 	return(status);
 }
@@ -102,37 +100,16 @@ jstring stoJstring(JNIEnv* env, const char* pat)
        return (jstring)env->NewObject(strClass, ctorID, bytes, encoding);
 }
 
-
-/* Native interface, it will be call in java code */
-//JNIEXPORT jstring JNICALL  Java_org_credil_helloworldservice_HelloWorldActivity_printJNI(JNIEnv *env,
-//		jobject obj) {
-//	LOGI("Hello World From libhelloworldservice.so!");
-//    print();
-//    setuid(0);
-//    print();
-//    setuid(10004);
-//    print();
-//    int filesize = hello_main();
-//    LOGI("Hello World From libhelloworldservice.so  filesize: %d\n", filesize);
-//    char *str = (char *)malloc(1024);
-//    sprintf(str, "libhelloworldservice Hello World, filesize: %d\n",  filesize);
-//    free(str);
-//	return stoJstring(env, str);
-//}
-
 /* Native interface, it will be call in java code */
 JNIEXPORT jint JNICALL  Java_org_credil_helloworldservice_HelloWorldActivity_copyfile(JNIEnv *env,
 		jobject obj, jstring jfrom, jstring jto) {
-	LOGI("Hello World From libhelloworldservice.so copyfile!");
 	char * from;
 	char * to;
 	from = (char *)env->GetStringUTFChars(jfrom, NULL);
 	to = (char *)env->GetStringUTFChars(jto, NULL);
 	if (from == NULL || to == NULL || !from || !to) {
-		LOGE("ERROR Hello World From libhelloworldservice.so from: %s, to: %s!", from, to);
 		return -1;
 	}
-	LOGI("Hello World From libhelloworldservice.so from: %s, to: %s!", from, to);
 	int status = hello_main(from, to);
 	env->ReleaseStringUTFChars( jfrom, from);
 	env->ReleaseStringUTFChars( jto, to);

@@ -1,4 +1,4 @@
-#define LOG_TAG "HelloWorldService-JNI"
+#define LOG_TAG "ZPadClient"
 
 #include <utils/Log.h>
 
@@ -68,7 +68,7 @@ public:
 
         virtual int copy_file(const char* from, const char* to) {
                 Parcel data, reply;
-                LOGI("helloworldclient copy_file:  from: %s, to: %s\n", from, to);
+                LOGI("copy_file:  from: %s, to: %s\n", from, to);
 
                 data.writeInterfaceToken(getInterfaceDescriptor());
                 data.writeString16(String16(from));
@@ -86,8 +86,8 @@ public:
                  * A parcel is "filled with data" and the transact method is called
                  */
                 Parcel data, reply;
-                LOGI("helloworldclient FilePath: %s\n", str);
-                printf("helloworldclient FilePath: %s\n", str);
+                LOGI("FilePath: %s\n", str);
+                printf("FilePath: %s\n", str);
                 data.writeInterfaceToken(getInterfaceDescriptor());
                 data.writeString16(String16(str));
                 remote()->transact(HW_FILE_SIZE, data, &reply);
