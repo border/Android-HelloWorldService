@@ -76,7 +76,7 @@ public:
 
         virtual int getfilesize(const char* filename) = 0;
 
-        virtual int copy_file(const char *path) = 0;
+        virtual int copy_file(const char* from, const char* to) = 0;
 };
 
 }

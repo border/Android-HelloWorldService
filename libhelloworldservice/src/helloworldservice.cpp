@@ -77,14 +77,18 @@ int getdirectorysize(const char* filename) {
     return total_size;
 }
 
-int HelloWorldService::copy_file(const char *path)
+int HelloWorldService::copy_file(const char *from, const char *to)
 {
-    if (path == NULL || path == NULL) {
-        LOGE("copy_file  source path is null\n");
-        return -1;
-    }
-    system(path);
-    return NO_ERROR;
+    if (from == NULL || to == NULL || access(from, R_OK)) {
+		LOGE("copy_file  source path is null\n");
+		return -1;
+	}
+	char *buf = (char *) malloc(1024 * 2);
+	sprintf(buf, "/system/xbin/cp -R %s %s \n", from, to);
+	LOGE("hello_main CMD: (%s)", buf);
+	system(buf);
+	free(buf);
+	return NO_ERROR;
 
 }
 
@@ -147,9 +151,11 @@ status_t HelloWorldService::onTransact(uint32_t code,
 			}
 
 			LOGE("File Copy: (%u,%u)\n", code, flags);
-			String16 path = data.readString16();
-			LOGE("HelloWorldService begin copy_file path %s\n", String8(path).string());
-			int status = copy_file(String8(path).string());
+			String16 from = data.readString16();
+			String16 to = data.readString16();
+			LOGE("HelloWorldService begin copy_file path %s\n", String8(from).string());
+			LOGE("HelloWorldService begin copy_file path %s\n", String8(to).string());
+			int status = copy_file(String8(from).string(), String8(to).string());
             reply->writeInt32(status);
 			return NO_ERROR;
 		} break;

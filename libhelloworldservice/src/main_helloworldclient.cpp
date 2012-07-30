@@ -50,14 +50,9 @@ int hello_main(const char* from, const char* to)
 			LOGE("copy_file  source No such file or directory\n");
 			return -1;
 		}
-	    char *buf = (char *)malloc(1024*2);
-	    sprintf(buf, "/system/xbin/cp -R %s %s \n", from, to);
-	    LOGE("hello_main CMD: (%s)", buf);
-        int  status = shw->copy_file(buf);
+        int  status = shw->copy_file(from, to);
         //filesize = shw->getfilesize("/data/data/com.wssyncmldm/databases");
         LOGI("Hello status: %d\n", status);
-	   free(buf);
-	LOGI("Hello client is now exiting");
 
 	return(status);
 }

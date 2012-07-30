@@ -66,12 +66,13 @@ public:
                 //printf("client str: (%s)\n", String8(s).string());
         }
 
-        virtual int copy_file(const char* path) {
+        virtual int copy_file(const char* from, const char* to) {
                 Parcel data, reply;
-                LOGI("helloworldclient copy_file: %s\n", path);
+                LOGI("helloworldclient copy_file:  from: %s, to: %s\n", from, to);
 
                 data.writeInterfaceToken(getInterfaceDescriptor());
-                data.writeString16(String16(path));
+                data.writeString16(String16(from));
+                data.writeString16(String16(to));
                 remote()->transact(HW_COPY_FILE, data, &reply);
                 int status = reply.readInt32();
                 LOGI("status=%d\n", status);
