@@ -20,8 +20,6 @@
 
 int hello_main(const char* from, const char* to)
 {
-	LOGI("Hello client is now starting");
-
         android::sp<android::IServiceManager> sm = android::defaultServiceManager();
         android::sp<android::IBinder> binder;
         android::sp<android::IHelloWorld> shw;
@@ -43,13 +41,11 @@ int hello_main(const char* from, const char* to)
         //sMediaPlayerService = interface_cast<IMediaPlayerService>(binder);
 
         shw = android::interface_cast<android::IHelloWorld>(binder);
-//        shw->hellothere("fun");
 		if (from == NULL || to == NULL || !from || !to) {
 			LOGE("copy_file  source No such file or directory\n");
 			return -1;
 		}
         int  status = shw->copy_file(from, to);
-        //filesize = shw->getfilesize("/data/data/com.wssyncmldm/databases");
         LOGI("ZPad/Service Return status: %d\n", status);
 
 	return(status);
@@ -101,7 +97,8 @@ jstring stoJstring(JNIEnv* env, const char* pat)
 }
 
 /* Native interface, it will be call in java code */
-JNIEXPORT jint JNICALL  Java_org_credil_helloworldservice_HelloWorldActivity_copyfile(JNIEnv *env,
+//JNIEXPORT jint JNICALL  Java_org_credil_helloworldservice_HelloWorldActivity_copyfile(JNIEnv *env,
+JNIEXPORT jint JNICALL  Java_cn_com_zpad_view_fragment_BackUpSystemFragment_copyfile(JNIEnv *env,
 		jobject obj, jstring jfrom, jstring jto) {
 	char * from;
 	char * to;

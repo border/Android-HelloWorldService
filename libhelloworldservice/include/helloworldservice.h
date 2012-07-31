@@ -43,7 +43,6 @@ public:
 
     static  void                instantiate();
 
-    void hellothere(const char *str);
     int copy_file(const char *from, const char *to);
     status_t onTransact(uint32_t code,
                                  const android::Parcel &data,
@@ -52,7 +51,6 @@ public:
 private:
     /* Private constructor to force the usage the  instantiate method */
     HelloWorldService(){};
-    virtual int getfilesize(const char* filename);
 };
 
 }

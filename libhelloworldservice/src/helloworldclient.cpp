@@ -48,24 +48,6 @@ public:
         BpHelloWorld(const sp<IBinder>& impl)
                 : BpInterface<IHelloWorld>(impl) {}
 
-        virtual void hellothere(const char *str) {
-                /**
-                 * most remote implementation method will look like this
-                 * two objects are created "data and reply" to serve as and reply
-                 * A parcel is "filled with data" and the transact method is called
-                 */
-                Parcel data, reply;
-                data.writeInterfaceToken(getInterfaceDescriptor());
-                data.writeString16(String16(str));
-                //remote()->transact(HW_HELLOTHERE, data, &reply, IBinder::FLAG_ONEWAY);
-                remote()->transact(HW_HELLOTHERE, data, &reply);
-                int filesize = reply.readInt32();
-                printf("filesize=%d\n", filesize);
-
-                //String16 s = reply.readString16();
-                //printf("client str: (%s)\n", String8(s).string());
-        }
-
         virtual int copy_file(const char* from, const char* to) {
                 Parcel data, reply;
                 LOGI("copy_file:  from: %s, to: %s\n", from, to);
@@ -78,25 +60,6 @@ public:
                 LOGI("status=%d\n", status);
                 return status;
         }
-
-        virtual int getfilesize(const char *str) {
-                /**
-                 * most remote implementation method will look like this
-                 * two objects are created "data and reply" to serve as and reply
-                 * A parcel is "filled with data" and the transact method is called
-                 */
-                Parcel data, reply;
-                LOGI("FilePath: %s\n", str);
-                printf("FilePath: %s\n", str);
-                data.writeInterfaceToken(getInterfaceDescriptor());
-                data.writeString16(String16(str));
-                remote()->transact(HW_FILE_SIZE, data, &reply);
-                int filesize = reply.readInt32();
-                printf("filesize=%d\n", filesize);
-                return filesize;
-        }
-
-
 };
 
 /**

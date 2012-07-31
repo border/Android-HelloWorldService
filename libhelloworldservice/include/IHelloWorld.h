@@ -41,10 +41,8 @@ protected:
      * are delivered using parcels.
      **/
     enum {
-            HW_HELLOTHERE =  IBinder::FIRST_CALL_TRANSACTION,
-            HW_FILE_SIZE,
-            HW_COPY_FILE
-    };
+		HW_COPY_FILE = IBinder::FIRST_CALL_TRANSACTION
+	};
 
 public:
         /**
@@ -72,10 +70,6 @@ public:
          * There is nothing really magic here you will need to wire the
          * binder calls to the methods using the enum.
          **/
-        virtual void hellothere(const char *str) = 0;
-
-        virtual int getfilesize(const char* filename) = 0;
-
         virtual int copy_file(const char* from, const char* to) = 0;
 };
 
